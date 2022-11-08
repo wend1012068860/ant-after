@@ -10,7 +10,8 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,10 +21,17 @@ import java.util.Map;
  */
 public class Pusher {
     public static void main(String[] args) {
-        push();
+        pushMsg();
     }
 
-    public static void push(){
+    public static void pushMsg(){
+        List<String> userList = getUsers();
+        for (String user : userList) {
+            packageMsg(user);
+        }
+    }
+
+    private static boolean packageMsg(String userId){
         //1,配置
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
         wxStorage.setAppId("wxbe0663e1506f4d1a");// appid
@@ -32,8 +40,7 @@ public class Pusher {
         wxMpService.setWxMpConfigStorage(wxStorage);
         //推送消息
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-//                .toUser("o-ElF6joC-CNm6815Xr9p8kYtdrI") // m
-                .toUser("o-ElF6uC2pjmC7Wy3D6rOjudx5J4") //w
+                .toUser(userId) // m
                 .templateId("24WUhV8O83JOEPkjAGP2D3v7R26BJ939bu6LEnXvg5Q")// 模板id
 //                .url("https://www.baidu.com")// 点击模板消息要访问的网址
                 .build();
@@ -62,9 +69,18 @@ public class Pusher {
         try {
             String msg = wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
             System.out.println("推送成功:" + msg);
+            return true;
         } catch (Exception e) {
             System.out.println("推送失败：" + e.getMessage());
             e.printStackTrace();
         }
+        return false;
+    }
+
+    private static List<String> getUsers(){
+        List<String> userList = new ArrayList<>();
+        userList.add("o-ElF6joC-CNm6815Xr9p8kYtdrI"); // 马颖
+        userList.add("o-ElF6uC2pjmC7Wy3D6rOjudx5J4"); // myself
+        return userList;
     }
 }

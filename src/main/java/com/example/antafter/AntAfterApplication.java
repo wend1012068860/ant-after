@@ -17,7 +17,7 @@ public class AntAfterApplication {
     // 定时
     @Scheduled(cron = "0 30 7 * * ?")
     public void goodMorning(){
-        Pusher.push();
+        Pusher.pushMsg();
     }
 
 }
