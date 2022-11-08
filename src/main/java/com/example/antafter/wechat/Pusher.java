@@ -11,6 +11,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +27,12 @@ public class Pusher {
 
     public static void pushMsg(){
         List<String> userList = getUsers();
+        Map<String, Boolean> resultMap = new HashMap<>();
         for (String user : userList) {
-            packageMsg(user);
+            resultMap.put(user, packageMsg(user));
+        }
+        for (Map.Entry<String, Boolean> map : resultMap.entrySet()){
+            System.out.println("推送至 " + map.getKey() + " 结果：" + map.getValue());
         }
     }
 
