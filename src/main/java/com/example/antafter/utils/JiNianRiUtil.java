@@ -1,5 +1,6 @@
 package com.example.antafter.utils;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,8 +24,21 @@ public class JiNianRiUtil {
         return 0;
     }
     public static int getBirthday_m(){
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int[] dateArray = LunarCalendar.lunarToSolar(currentYear, 1, 24, false);
+        String year = String.valueOf(dateArray[0]);
+        String month = String.valueOf(dateArray[1]);
+        String day = String.valueOf(dateArray[2]);
+        if (dateArray[1]/10 == 0){
+            month = "0" + month;
+        }
+        if (dateArray[2]/10 == 0){
+            day = "0" + day;
+        }
+        String birthdayDate = year + "-" + month + "-" + day;
         try {
-            return calculationBirthday("1996-01-24");
+            return calculationBirthday(birthdayDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
