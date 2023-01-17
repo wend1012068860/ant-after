@@ -3,6 +3,7 @@ package com.example.antafter.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.antafter.entity.Weather;
+import com.example.antafter.enums.AreaEnum;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class WeatherUtil {
     public static Weather getWeather(){
         RestTemplate restTemplate = new RestTemplate();
         Map<String,String> map = new HashMap<String,String>();
-        map.put("district_id","320812"); // 地方行政代码
+        map.put("district_id", AreaEnum.XUZHOU_FENGXIAN.getAreaCode()); // 地方行政代码
         map.put("data_type","all");//这个是数据类型
         map.put("ak","QpoEj7gw4a6uhraDa2ibr8mkZiypItzc");
         String res = restTemplate.getForObject(
